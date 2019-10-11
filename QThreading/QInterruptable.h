@@ -1,0 +1,4 @@
+#ifndef QINTERRUPTABLE_H
+#define QINTERRUPTABLE_H
+
+#endif // QINTERRUPTABLE_H

@@ -19,13 +19,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     qthreading.cpp  \
-    qworkerthread.cpp
+    qworkerthread.cpp \
+    threadworker.cpp
 
 HEADERS += \
+    QInterruptable.h \
     QThreading_global.h \
     QWorkerThread_global.h \
     qthreading.h \
-    qworkerthread.h
+    qworkerthread.h \
+    threadworker.h
 
 # Default rules for deployment.
 unix {

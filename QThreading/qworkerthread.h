@@ -3,6 +3,12 @@
 
 #include <QObject>
 #include <functional>
+#include <QThread>
+
+#include "threadworker.h"
+
+
+template <class ReturnType>
 
 class QWorkerThread: public QObject
 {
@@ -10,12 +16,13 @@ class QWorkerThread: public QObject
 
 public:
     QWorkerThread();
-    template <class ReturnType>
     explicit QWorkerThread(std::function<ReturnType()> func);
     ~QWorkerThread();
     void start();
+    void start(QThread::Priority priority = QThread::Priority::InheritPriority);
     void stop();
     void wait();
+    void wait(unsigned long time = ULONG_MAX);
     void kill();
 
 signals:
@@ -48,7 +55,7 @@ private:
     /**
      * @brief workerObject - Contains the object and 'method' that will be moved to `workerThread`
      */
-    QObject *workerObject = nullptr;
+    ThreadWorker<Retur *workerObject = nullptr;
 
     /**
      * @brief workerThread - Worker Thread is seperate thread that runs the method
