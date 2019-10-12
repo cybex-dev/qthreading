@@ -7,16 +7,13 @@
 
 #include "threadworker.h"
 
-
-template <class ReturnType>
-
 class QWorkerThread: public QObject
 {
     Q_OBJECT
 
 public:
     QWorkerThread();
-    explicit QWorkerThread(std::function<ReturnType()> func);
+    explicit QWorkerThread(std::function<void ()> func);
     ~QWorkerThread();
     void start();
     void start(QThread::Priority priority = QThread::Priority::InheritPriority);
@@ -32,12 +29,11 @@ signals:
      */
     void started();
 
-    template<class Type>
     /**
      * @brief progress reports on progress in method, user defined.
-     * @param value reported using custom type `template< class Type>`
+     * @param value reported using int
      */
-    void progress(Type value);
+    void progress(int value);
 
     /**
      * Emitted when the QWorkerThread object has finished its work, same signal is used from &QThread::finished
@@ -55,7 +51,7 @@ private:
     /**
      * @brief workerObject - Contains the object and 'method' that will be moved to `workerThread`
      */
-    ThreadWorker<Retur *workerObject = nullptr;
+    ThreadWorker *workerObject = nullptr;
 
     /**
      * @brief workerThread - Worker Thread is seperate thread that runs the method

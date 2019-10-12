@@ -32,6 +32,26 @@ void QWorkerThread::start()
 void QWorkerThread::start(QThread::Priority priority)
 {
 
+    // Connect workerThread start signal to ThreadWorker object's run slot
+    connect(workerThread, &QThread::started, workerObject, &ThreadWorker::run);
+
+    // Connect threadWorker progress report to this progress report
+    connect(workerObject, &ThreadWorker::progress, this, &QWorkerThread::progress);
+
+    // Cleanup
+    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::cleanup);
+
+    // Delete
+    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::deleteLater);
+    connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater);
+
+    // move workerObject to thread
+    workerObject->moveToThread(workerThread);
+
+    // emit signal that we are starting
+    emit started();
+
+    // Start WorkerThread which invokes object to start process method
     workerThread->start(priority);
 }
 
@@ -54,10 +74,10 @@ void QWorkerThread::wait(unsigned long time)
 void QWorkerThread::kill()
 {
     // stop successfully
-    workerThread->exit(0);
+    stop();
 
     // Wait 500ms for kill
-    workerThread->wait(500);
+    wait(500);
 
     // check if still running
     if(workerThread->isRunning()){

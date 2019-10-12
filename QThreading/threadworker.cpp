@@ -1,13 +1,8 @@
 #include "threadworker.h"
 
-bool ThreadWorker::getInterruptRequested() const
+void ThreadWorker::setRunnable(const std::function<void ()> &value)
 {
-    return interruptRequested;
-}
-
-void ThreadWorker::setInterruptRequested(bool value)
-{
-    interruptRequested = value;
+    runnable = value;
 }
 
 ThreadWorker::ThreadWorker(QObject *parent) : QObject(parent)
@@ -15,7 +10,23 @@ ThreadWorker::ThreadWorker(QObject *parent) : QObject(parent)
 
 }
 
+ThreadWorker::ThreadWorker(std::function<void ()> func): runnable(func) {
+
+}
+
+ThreadWorker::~ThreadWorker()
+{
+
+}
+
 void ThreadWorker::run()
 {
+    emit started();
+    runnable();
     emit finished();
+}
+
+void ThreadWorker::cleanup()
+{
+
 }
