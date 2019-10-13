@@ -35,7 +35,7 @@ public:
 
     void pause();
     void resume();
-    QThread *getWorkerThread() const;
+    QWaitThread *getWorkerThread() const;
 
     State getState() const;
 

@@ -3,14 +3,14 @@
 QWorkerThread::QWorkerThread()
 {
     state = State::NotRunning;
-    workerThread = new QThread;
+    workerThread = new QWaitThread;
     workerObject = new ThreadWorker;
 }
 
 QWorkerThread::QWorkerThread(std::function<void ()> func)
 {
     state = State::NotRunning;
-    workerThread = new QThread;
+    workerThread = new QWaitThread;
     workerObject = new ThreadWorker(func);
 }
 
@@ -105,7 +105,7 @@ void QWorkerThread::setWorkerObject(ThreadWorker *value)
     workerObject = value;
 }
 
-QThread *QWorkerThread::getWorkerThread() const
+QWaitThread *QWorkerThread::getWorkerThread() const
 {
     return workerThread;
 }
@@ -117,10 +117,12 @@ QWorkerThread::State QWorkerThread::getState() const
 
 void QWorkerThread::pause()
 {
+    workerThread->pause();
     state = State::Paused;
 }
 
 void QWorkerThread::resume()
 {
+    workerThread->resume();
     state = State::Running;
 }
