@@ -5,6 +5,11 @@ QWorkerThread::QWorkerThread()
 
 }
 
+QWorkerThread::QWorkerThread(std::function<void ()> func)
+{
+    workerObject->setRunnable(func);
+}
+
 QWorkerThread::~QWorkerThread()
 {
     //  Check if worker thread is running
