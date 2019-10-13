@@ -44,8 +44,8 @@ signals:
     void error();
 
 public slots:
-    void run();
-    void cleanup();
+    virtual void run();
+    virtual void cleanup();
 };
 
 #endif // THREADWORKER_H
