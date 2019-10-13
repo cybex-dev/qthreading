@@ -2,7 +2,7 @@
 
 QWaitThread::QWaitThread(QObject *parent) : QThread(parent)
 {
-
+    waitCondition = new QWaitCondition;
 }
 
 void QWaitThread::pause()
