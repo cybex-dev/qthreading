@@ -15,12 +15,14 @@ public:
     QWorkerThread();
     explicit QWorkerThread(std::function<void ()> func);
     ~QWorkerThread();
-    void start();
     void start(QThread::Priority priority = QThread::Priority::InheritPriority);
     void stop();
     void wait();
     void wait(unsigned long time = ULONG_MAX);
     void kill();
+    void setWorkerObject(ThreadWorker *value);
+
+    QThread *getWorkerThread() const;
 
 signals:
     /**

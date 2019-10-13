@@ -28,12 +28,6 @@ QWorkerThread::~QWorkerThread()
     delete workerObject;
 }
 
-void QWorkerThread::start()
-{
-    // Start thread with default priority
-    start(QThread::Priority::InheritPriority);
-}
-
 void QWorkerThread::start(QThread::Priority priority)
 {
 
@@ -89,4 +83,14 @@ void QWorkerThread::kill()
         // forcefully kill
         workerThread->terminate();
     }
+}
+
+void QWorkerThread::setWorkerObject(ThreadWorker *value)
+{
+    workerObject = value;
+}
+
+QThread *QWorkerThread::getWorkerThread() const
+{
+    return workerThread;
 }
