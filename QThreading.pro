@@ -18,19 +18,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    qthreading.cpp  \
-    qwaitthread.cpp \
-    qworkerthread.cpp \
-    threadworker.cpp
+    QThreading/qthreading.cpp  \
+    QThreading/qwaitthread.cpp \
+    QThreading/qworkerthread.cpp \
+    QThreading/threadworker.cpp
 
 HEADERS += \
-    QInterruptable.h \
-    QThreading_global.h \
-    QWorkerThread_global.h \
-    qthreading.h \
-    qwaitthread.h \
-    qworkerthread.h \
-    threadworker.h
+    QThreading/QInterruptable.h \
+    QThreading/QThreading_global.h \
+    QThreading/QWorkerThread_global.h \
+    QThreading/qthreading.h \
+    QThreading/qwaitthread.h \
+    QThreading/qworkerthread.h \
+    QThreading/threadworker.h
 
 # Default rules for deployment.
 unix {
