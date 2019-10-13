@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     qthreading.cpp  \
+    qwaitthread.cpp \
     qworkerthread.cpp \
     threadworker.cpp
 
@@ -27,6 +28,7 @@ HEADERS += \
     QThreading_global.h \
     QWorkerThread_global.h \
     qthreading.h \
+    qwaitthread.h \
     qworkerthread.h \
     threadworker.h
 

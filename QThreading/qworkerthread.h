@@ -5,6 +5,7 @@
 #include <functional>
 #include <QThread>
 
+#include "qwaitthread.h"
 #include "threadworker.h"
 
 class QWorkerThread: public QObject
@@ -72,7 +73,7 @@ private:
     /**
      * @brief workerThread - Worker Thread is seperate thread that runs the method
      */
-    QThread *workerThread = nullptr;
+    QWaitThread *workerThread = nullptr;
 
     State state;
 
