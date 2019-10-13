@@ -2,12 +2,16 @@
 
 QWorkerThread::QWorkerThread()
 {
-
+    state = State::NotRunning;
+    workerThread = new QThread;
+    workerObject = new ThreadWorker;
 }
 
 QWorkerThread::QWorkerThread(std::function<void ()> func)
 {
-    workerObject->setRunnable(func);
+    state = State::NotRunning;
+    workerThread = new QThread;
+    workerObject = new ThreadWorker(func);
 }
 
 QWorkerThread::~QWorkerThread()
@@ -31,13 +35,19 @@ QWorkerThread::~QWorkerThread()
 void QWorkerThread::start(QThread::Priority priority)
 {
 
+    state = State::Running;
     // Connect workerThread start signal to ThreadWorker object's run slot
+    connect(workerThread, &QThread::started, workerObject, &ThreadWorker::started);
     connect(workerThread, &QThread::started, workerObject, &ThreadWorker::run);
 
     // Connect threadWorker progress report to this progress report
     connect(workerObject, &ThreadWorker::progress, this, &QWorkerThread::progress);
 
     // Cleanup
+    connect(workerObject, &ThreadWorker::finished, this, [this](){
+        state = State::Finished;
+        emit finished();
+    });
     connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::cleanup);
 
     // Delete
@@ -56,22 +66,27 @@ void QWorkerThread::start(QThread::Priority priority)
 
 void QWorkerThread::stop()
 {
+    state = State::Exiting;
     // Exit thread safely with success
     workerThread->exit(0);
 }
 
 void QWorkerThread::wait()
 {
+    state = State::Waiting;
     workerThread->wait();
 }
 
 void QWorkerThread::wait(unsigned long time)
 {
+    state = State::Waiting;
     workerThread->wait(time);
 }
 
 void QWorkerThread::kill()
 {
+    state = State::Exiting;
+
     // stop successfully
     stop();
 
@@ -93,4 +108,19 @@ void QWorkerThread::setWorkerObject(ThreadWorker *value)
 QThread *QWorkerThread::getWorkerThread() const
 {
     return workerThread;
+}
+
+QWorkerThread::State QWorkerThread::getState() const
+{
+    return state;
+}
+
+void QWorkerThread::pause()
+{
+    state = State::Paused;
+}
+
+void QWorkerThread::resume()
+{
+    state = State::Running;
 }

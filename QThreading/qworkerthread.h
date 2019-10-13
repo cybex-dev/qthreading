@@ -12,6 +12,16 @@ class QWorkerThread: public QObject
     Q_OBJECT
 
 public:
+
+    enum State {
+        Running,
+        Paused,
+        NotRunning,
+        Finished,
+        Waiting,
+        Exiting
+    };
+
     QWorkerThread();
     explicit QWorkerThread(std::function<void ()> func);
     ~QWorkerThread();
@@ -22,7 +32,11 @@ public:
     void kill();
     void setWorkerObject(ThreadWorker *value);
 
+    void pause();
+    void resume();
     QThread *getWorkerThread() const;
+
+    State getState() const;
 
 signals:
     /**
@@ -59,6 +73,8 @@ private:
      * @brief workerThread - Worker Thread is seperate thread that runs the method
      */
     QThread *workerThread = nullptr;
+
+    State state;
 
 };
 
