@@ -7,8 +7,8 @@ QWaitThread::QWaitThread(QObject *parent) : QThread(parent)
 
 void QWaitThread::pause()
 {
-    waitCondition->wait(&mutex);
     emit paused();
+    waitCondition->wait(&mutex);
 }
 
 void QWaitThread::resume()
