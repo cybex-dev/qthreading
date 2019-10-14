@@ -3,13 +3,20 @@
 
 #include <QObject>
 #include <functional>
+#include <QWaitCondition>
+#include <QMutex>
 
-class ThreadWorker : public QObject
+#include "QInterruptable.h"
+
+class ThreadWorker : public QObject, public QInterruptable
 {
     Q_OBJECT
 
 private:
+    QMutex mutex;
+    QWaitCondition *waitCondition;
     std::function<void ()> runnable;
+    bool shouldPause = false;
 
 public:
     explicit ThreadWorker(QObject *parent = nullptr);
@@ -46,6 +53,29 @@ signals:
 public slots:
     virtual void run();
     virtual void cleanup();
+
+
+    // QInterruptable interface
+public:
+    void pause()
+    {
+        shouldPause = true;
+    }
+    void resume()
+    {
+        shouldPause = false;
+    }
+    QMutex& getMutex();
+    QWaitCondition *getWaitCondition() const;
+    void setWaitCondition(QWaitCondition *value);
+    bool getShouldPause() const;
+
+    // QInterruptable interface
+public:
+    void interrupt()
+    {
+
+    }
 };
 
 #endif // THREADWORKER_H

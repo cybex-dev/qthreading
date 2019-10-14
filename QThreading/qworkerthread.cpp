@@ -121,12 +121,12 @@ QWorkerThread::State QWorkerThread::getState() const
 
 void QWorkerThread::pause()
 {
-    workerThread->pause();
+    workerObject->pause();
     state = State::Paused;
 }
 
 void QWorkerThread::resume()
 {
-    workerThread->resume();
+    workerObject->resume();
     state = State::Running;
 }
