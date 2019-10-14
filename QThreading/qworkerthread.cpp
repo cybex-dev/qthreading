@@ -69,6 +69,8 @@ void QWorkerThread::stop()
     state = State::Exiting;
     // Exit thread safely with success
     workerThread->exit(0);
+
+    emit finished();
 }
 
 void QWorkerThread::wait()
@@ -98,6 +100,8 @@ void QWorkerThread::kill()
         // forcefully kill
         workerThread->terminate();
     }
+
+    emit finished();
 }
 
 void QWorkerThread::setWorkerObject(ThreadWorker *value)
