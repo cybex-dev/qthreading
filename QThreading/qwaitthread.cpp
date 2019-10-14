@@ -5,6 +5,13 @@ QWaitThread::QWaitThread(QObject *parent) : QThread(parent)
     waitCondition = new QWaitCondition;
 }
 
+QWaitThread::~QWaitThread()
+{
+    if(waitCondition != nullptr) {
+        delete waitCondition;
+    }
+}
+
 void QWaitThread::pause()
 {
     emit paused();

@@ -11,6 +11,7 @@ class QWaitThread : public QThread
     Q_OBJECT
 public:
     explicit QWaitThread(QObject *parent = nullptr);
+    ~QWaitThread();
     virtual void pause();
     virtual void resume();
 

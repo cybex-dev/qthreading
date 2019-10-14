@@ -3,12 +3,10 @@
 
 class QInterruptable {
 public:
-    virtual void pause();
-    virtual void resume();
-    virtual void interrupt();
-    virtual ~QInterruptable(){
-
-    }
+    virtual void pause() = 0;
+    virtual void resume() = 0;
+    virtual void interrupt() = 0;
+    virtual ~QInterruptable() = default;
 };
 
 #endif // QINTERRUPTABLE_H

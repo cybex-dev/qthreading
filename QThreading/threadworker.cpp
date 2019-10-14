@@ -35,7 +35,7 @@ ThreadWorker::ThreadWorker(std::function<void ()> func): runnable(func) {
 }
 
 ThreadWorker::~ThreadWorker()
-{
+{    
     if(waitCondition != nullptr){
         delete waitCondition;
     }

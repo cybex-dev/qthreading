@@ -28,8 +28,8 @@ QWorkerThread::~QWorkerThread()
     }
 
     // cleanup
-    delete workerThread;
     delete workerObject;
+    delete workerThread;
 }
 
 void QWorkerThread::start(QThread::Priority priority)
@@ -50,9 +50,9 @@ void QWorkerThread::start(QThread::Priority priority)
     });
     connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::cleanup);
 
-    // Delete
-    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::deleteLater);
-    connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater);
+//    // Delete
+//    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::deleteLater);
+//    connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater);
 
     // move workerObject to thread
     workerObject->moveToThread(workerThread);
