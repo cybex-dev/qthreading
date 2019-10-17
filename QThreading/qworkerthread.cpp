@@ -48,7 +48,9 @@ void QWorkerThread::start(QThread::Priority priority)
         state = State::Finished;
         emit finished();
     });
-    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::cleanup);
+    connect(workerThread, &QWaitThread::finished, this, [this] {
+        workerObject->deleteLater();
+    });
 
 //    // Delete
 //    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::deleteLater);
