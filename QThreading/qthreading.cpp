@@ -1,5 +1,5 @@
 #include "qthreading.h"
 
-QThreading::QThreading()
-{
-}
+//QThreading::QThreading()
+//{
+//}

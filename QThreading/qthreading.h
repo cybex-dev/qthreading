@@ -6,7 +6,7 @@
 class QTHREADING_EXPORT QThreading
 {
 public:
-    QThreading();
+//    QThreading();
 };
 
 #endif // QTHREADING_H

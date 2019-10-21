@@ -5,6 +5,7 @@ QWorkerThread::QWorkerThread()
     state = State::NotRunning;
     workerThread = new QWaitThread;
     workerObject = new ThreadWorker;
+    workerThread->setObjectName("WorkerThread");
 }
 
 QWorkerThread::QWorkerThread(std::function<void ()> func)
@@ -12,6 +13,7 @@ QWorkerThread::QWorkerThread(std::function<void ()> func)
     state = State::NotRunning;
     workerThread = new QWaitThread;
     workerObject = new ThreadWorker(func);
+    workerThread->setObjectName("WorkerThread");
 }
 
 QWorkerThread::~QWorkerThread()
