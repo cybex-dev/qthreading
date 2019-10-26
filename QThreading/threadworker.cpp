@@ -34,6 +34,7 @@ ThreadWorker::ThreadWorker(std::function<void ()> func): runnable(func) {
     waitCondition = new QWaitCondition;
 }
 
+
 ThreadWorker::~ThreadWorker()
 {    
     if(waitCondition != nullptr){

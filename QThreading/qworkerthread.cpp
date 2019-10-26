@@ -34,6 +34,11 @@ QWorkerThread::~QWorkerThread()
     delete workerThread;
 }
 
+void QWorkerThread::setRunnable(std::function<void ()> runnable)
+{
+    workerObject->setRunnable(runnable);
+}
+
 void QWorkerThread::start(QThread::Priority priority)
 {
 
