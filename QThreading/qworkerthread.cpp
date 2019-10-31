@@ -26,7 +26,11 @@ QWorkerThread::~QWorkerThread()
     }
 
     if(!workerThread->isFinished()) {
-        workerThread->wait();
+        workerThread->wait(500);
+
+        if(workerThread->isRunning()) {
+            workerThread->terminate();
+        }
     }
 
     // cleanup
@@ -96,7 +100,7 @@ void QWorkerThread::kill()
     stop();
 
     // Wait 500ms for kill
-    wait(500);
+//    wait(500);
 
     // check if still running
     if(workerThread->isRunning()){
