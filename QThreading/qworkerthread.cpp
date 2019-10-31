@@ -82,12 +82,6 @@ void QWorkerThread::stop()
     emit finished();
 }
 
-void QWorkerThread::wait()
-{
-    state = State::Waiting;
-    workerThread->wait();
-}
-
 void QWorkerThread::wait(unsigned long time)
 {
     state = State::Waiting;

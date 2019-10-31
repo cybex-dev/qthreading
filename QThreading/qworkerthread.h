@@ -29,7 +29,6 @@ public:
     virtual void setRunnable(std::function <void()> runnable);
     virtual void start(QThread::Priority priority = QThread::Priority::InheritPriority);
     virtual void stop();
-    virtual void wait();
     virtual void wait(unsigned long time = ULONG_MAX);
     virtual void kill();
     virtual void setWorkerObject(ThreadWorker *value);
@@ -76,7 +75,7 @@ private:
      */
     QWaitThread *workerThread = nullptr;
 
-    State state;
+    State state = State::NotRunning;
 
 };
 
