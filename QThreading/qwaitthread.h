@@ -15,6 +15,7 @@ public:
     virtual void pause();
     virtual void resume();
 
+
 signals:
     void paused();
     void resumed();

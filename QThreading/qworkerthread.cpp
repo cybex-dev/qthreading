@@ -13,7 +13,7 @@ QWorkerThread::QWorkerThread(std::function<void ()> func)
     state = State::NotRunning;
     workerThread = new QWaitThread;
     workerObject = new ThreadWorker(func);
-    workerThread->setObjectName("WorkerThread");
+    workerThread->setObjectName("QWorkerThread");
 }
 
 QWorkerThread::~QWorkerThread()
@@ -22,20 +22,21 @@ QWorkerThread::~QWorkerThread()
     if(workerThread->isRunning()) {
 
         // Exit thread with -1
-        workerThread->exit(-1);
+        workerThread->quit();
     }
 
     if(!workerThread->isFinished()) {
-        workerThread->wait(500);
+        workerThread->wait(5000);
 
         if(workerThread->isRunning()) {
             workerThread->terminate();
+//            workerThread->wait();
         }
     }
 
     // cleanup
     delete workerObject;
-    delete workerThread;
+    workerThread->deleteLater();
 }
 
 void QWorkerThread::setRunnable(std::function<void ()> runnable)
@@ -63,25 +64,22 @@ void QWorkerThread::start(QThread::Priority priority)
         workerObject->deleteLater();
     });
 
-//    // Delete
-//    connect(workerObject, &ThreadWorker::finished, workerObject, &ThreadWorker::deleteLater);
-//    connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater);
-
     // move workerObject to thread
     workerObject->moveToThread(workerThread);
 
-    // emit signal that we are starting
-    emit started();
-
     // Start WorkerThread which invokes object to start process method
     workerThread->start(priority);
+
+    // emit signal that we are starting
+    emit started();
 }
 
 void QWorkerThread::stop()
 {
     state = State::Exiting;
     // Exit thread safely with success
-    workerThread->exit(0);
+    workerThread->terminate();
+    workerThread->wait();
 
     emit finished();
 }
@@ -94,18 +92,14 @@ void QWorkerThread::wait(unsigned long time)
 
 void QWorkerThread::kill()
 {
-    state = State::Exiting;
-
-    // stop successfully
+    // try stopping
     stop();
-
-    // Wait 500ms for kill
-//    wait(500);
 
     // check if still running
     if(workerThread->isRunning()){
         // forcefully kill
         workerThread->terminate();
+        workerThread->wait();
     }
 
     emit finished();
@@ -124,6 +118,25 @@ QWaitThread *QWorkerThread::getWorkerThread() const
 QWorkerThread::State QWorkerThread::getState() const
 {
     return state;
+}
+
+QString QWorkerThread::parseState(QWorkerThread::State state) {
+    switch (state) {
+        case Running:
+            return "Running";
+        case Paused:
+            return "Paused";
+        case NotRunning:
+            return "NotRunning";
+        case Finished:
+            return "Finished";
+        case Waiting:
+            return "Waiting";
+        case Exiting:
+            return "Exiting";
+    }
+
+    return QString("Unknown State [%1]").arg(QString::number(state)) ;
 }
 
 void QWorkerThread::pause()
