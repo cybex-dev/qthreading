@@ -2,7 +2,6 @@ QT -= gui
 
 TEMPLATE = lib
 DEFINES += QTHREADING_LIBRARY
-DEFINES += QWORKERTHREAD_LIBRARY
 
 CONFIG += c++11
 
@@ -18,19 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    QThreading/qthreading.cpp  \
-    QThreading/qwaitthread.cpp \
-    QThreading/qworkerthread.cpp \
-    QThreading/threadworker.cpp
+    QThreading/qrunnablethread.cpp \
 
 HEADERS += \
-    QThreading/QInterruptable.h \
-    QThreading/QThreading_global.h \
-    QThreading/QWorkerThread_global.h \
-    QThreading/qthreading.h \
-    QThreading/qwaitthread.h \
-    QThreading/qworkerthread.h \
-    QThreading/threadworker.h
+    QThreading/qinterruptable.h \
+    QThreading/qrunnablethread.h \
+    QThreading/qthreadstate.h \
+    QThreading/qthreading_global.h
 
 # Default rules for deployment.
 unix {

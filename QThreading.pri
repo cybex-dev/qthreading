@@ -1,16 +1,15 @@
 QT -= gui
 
+TEMPLATE = lib
+DEFINES += QTHREADING_LIBRARY
+
+CONFIG += c++11
+
 SOURCES += \
-    $$PWD/QThreading/qthreading.cpp  \
-    $$PWD/QThreading/qworkerthread.cpp \
-    $$PWD/QThreading/threadworker.cpp \
-    $$PWD/QThreading/qwaitthread.cpp \
+    QThreading/qrunnablethread.cpp \
 
 HEADERS += \
-    $$PWD/QThreading/QInterruptable.h \
-    $$PWD/QThreading/QThreading_global.h \
-    $$PWD/QThreading/QWorkerThread_global.h \
-    $$PWD/QThreading/qthreading.h \
-    $$PWD/QThreading/qworkerthread.h \
-    $$PWD/QThreading/threadworker.h \
-    $$PWD/QThreading/qwaitthread.h \
+    QThreading/qinterruptable.h \
+    QThreading/qrunnablethread.h \
+    QThreading/qthreadstate.h \
+    QThreading/qthreading_global.h
